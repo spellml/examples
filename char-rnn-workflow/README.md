@@ -17,10 +17,11 @@ $ git clone https://github.com/sherjilozair/char-rnn-tensorflow.git
 ```
 2. Clone this repo:
 ```ShellSession
-$ git clone https://github.com/spellrun/spell-examples.git && cd spell-examples
+$ git clone https://github.com/spellrun/spell-examples.git
 ```
 3. Run the workflow:
 ```ShellSession
+$ cd spell-examples
 $ spell workflow --repo char-rnn=../char-rnn-tensorflow/ python char-rnn-workflow/workflow.py
 ```
 
