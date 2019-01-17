@@ -56,6 +56,9 @@ class SER:
         self.last_output = None
 
     def step(self, optimizer, f):
+        # need to lock so that no other thread can interleave and register a point
+        # before the current thread finishes 1. registering its last point and 2. calling
+        # suggest to get its next point
         lock.acquire()
         try:
             if self.last_output is not None:
