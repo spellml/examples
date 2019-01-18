@@ -21,13 +21,13 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('--params', type=json.loads,
                     dest='params', help='hyperparameter domain dictionary mapping hyperparameter name to a tuple of (min, max, type)',
-                    default={'batch-size': (32, 256, 'int'), 'dropout': (.1, .5, 'float'), 'dense-size': (100, 200, 'int')})
+                    default={'batch-size': (32, 256, 'int'), 'dropout': (.1, .3, 'float')})
 parser.add_argument('--command', type=str,
                     dest='command', help='the spell run command to run',
-                    default="cd mnist; python mnist.py")
+                    default="python cifar.py")
 parser.add_argument('--metric', type=str,
                     dest='metric', help='the metric by which your model will be evaluated',
-                    default="test_acc")
+                    default="keras/val_acc")
 parser.add_argument('--parallel-runs', type=int,
                     dest='parallel', help='number of runs that will be spawned in parallel',
                     default=3)
@@ -104,7 +104,7 @@ def black_box_function(**pvals):
     for m in r.metrics(metric_name=args.metric, follow=True):
         metrics.append(m[2])
     if not metrics:
-        raise Exception('The metric ({0}) is not valid')
+        raise Exception('Run ended prematurely or metric ({0}) was not found (check run logs)'.format(args.metric))
 
     if args.type == 'average':
         metric_value = reduce(lambda x, y: x + y, metrics) / len(metrics)

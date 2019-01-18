@@ -1,6 +1,0 @@
-{
-  "project": "mnist",
-  "container": "Test-Container",
-  "command": "python3 mnist.py",
-  "lastJobId": "jst7xx3ub1p7fd"
-}
