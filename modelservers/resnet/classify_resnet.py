@@ -59,5 +59,5 @@ if __name__ == '__main__':
     parser.add_argument('--server', default=SERVER_URL, help='Prediction server URL.')
     parser.add_argument('--auth', default=AUTH_TOKEN, help='Prediction server Authentication Token')
     args = parser.parse_args()
-
+    
     classify(args.img, args.server, args.auth)
