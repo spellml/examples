@@ -3,13 +3,11 @@ import base64
 import json
 import requests
 from six.moves.urllib.parse import urlparse
-import sys
-import warnings
 
 
-IMAGE_URL = 'https://github.com/spellrun/modelservers/raw/master/imagenet/image.jpg'
-SERVER_URL = 'https://serving.spell.run/marius/resnet/v1/rest/model:predict'
-AUTH_TOKEN = 'thptVN0oyfYM_kz3kWLc-37R6f3m-rs3syWdxBLVNGIR-MjL11DS7nqA89JafAUFKIS9YdZQN8YXDCZnG7VAyTw'
+IMAGE_URL = 'https://images.unsplash.com/photo-1526319238109-524eecb9b913?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60'
+SERVER_URL = 'https://serving.spell.run/trey/resnet/v1/rest/model:predict'
+AUTH_TOKEN = 'tamgBdF9jncH3W8qgwIIVfxPJ_P9u3SnmStkGn3lqgg0hUk3qJSyPD2MIsfhwyI0d38DqVC6t_6N-jqqFbvrC5g'
 IMAGE_NET_CLS = 'imagenet1000_clsid_to_human.json'
 
 
@@ -34,8 +32,8 @@ def load_jpeg_img(path):
 
 def predict_img_class(img_bytes, server, auth):
     print('Predicting image class..')
-    data = '{"instances" : [{"b64": "%s"}]}' % base64.b64encode(img_bytes)
-    headers = {'Authorization':'Bearer {}'.format(auth)}
+    data = b'{"instances" : [{"b64": "%s"}]}' % base64.b64encode(img_bytes)
+    headers = {'Authorization': 'Bearer {}'.format(auth)}
     res = requests.post(server, data=data, headers=headers)
     res.raise_for_status()
     prediction = res.json()['predictions'][0]
@@ -43,7 +41,7 @@ def predict_img_class(img_bytes, server, auth):
 
 
 def img_class_to_name(img_class_id):
-    json_data=open(IMAGE_NET_CLS).read()
+    json_data = open(IMAGE_NET_CLS).read()
     data = json.loads(json_data)
     return data[str(img_class_id - 1)]
 
