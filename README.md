@@ -1,6 +1,6 @@
 # spell-examples
 
-This respository contains examples of how to use [Spell](https://spell.run).
+This repository contains examples of how to use [Spell](https://spell.run).
 
 Check out our [documentation](https://spell.run/docs) for more detailed information about Spell.
 
