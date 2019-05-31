@@ -25,7 +25,7 @@ $ git clone https://github.com/spellrun/spell-examples.git
 ### 3. Run the workflow:
 ```ShellSession
 $ cd spell-examples
-$ spell workflow --repo video-gen=../video-generation/ "python workflow.py --video video/fireworks.mp4"
+$ spell workflow --repo video-gen=../video-generation/ "python workflows/video-generation-workflow/workflow.py --video video/fireworks.mp4"
 ```
 Notice: 
 * The above command uses a sample video. But you can use your own video, which requires you add a new command to download it at the first run of the workflow. 
