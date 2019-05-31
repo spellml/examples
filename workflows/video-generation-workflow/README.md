@@ -29,7 +29,7 @@ $ spell workflow --repo video-gen=../video-generation/ "python workflow.py --vid
 ```
 Notice: 
 * The above command uses a sample video. But you can use your own video, which requires you add a new command to download it at the first run of the workflow. 
-* You can specify other optional settings apart from the video path. Check `python workflow.py -h`.
+* You can specify other optional settings apart from the video path. Check with `python workflow.py -h`.
 
 ### 4. Download generated video from the latest run:
 ```ShellSession
