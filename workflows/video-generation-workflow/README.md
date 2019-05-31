@@ -12,26 +12,21 @@ Pix2pix is an image-to-image transformation method. Given a video, we can train 
 
 # Run it
 
-### 1. Clone the [Video Generation](https://github.com/chengz3906/video-generation) repo:
-```ShellSession
-$ git clone https://github.com/chengz3906/video-generation.git
-```
-
-### 2. Clone this repo:
+### 1. Clone this repo:
 ```ShellSession
 $ git clone https://github.com/spellrun/spell-examples.git
 ```
 
-### 3. Run the workflow:
+### 2. Run the workflow:
 ```ShellSession
 $ cd spell-examples
-$ spell workflow --repo video-gen=../video-generation/ "python workflows/video-generation-workflow/workflow.py --video video/fireworks.mp4"
+$ spell workflow --github-repo video-gen=https://github.com/chengz3906/video-generation.git "python workflows/video-generation-workflow/workflow.py --video video/fireworks.mp4"
 ```
 Notice: 
-* The above command uses a sample video. You can also choose your own video, which requires you add a new command to download it at the first run of the workflow. 
-* You can specify other optional settings apart from the video path. Check with `python workflow.py -h`.
+* The above command uses a sample video. You can also choose your own video, which requires you to add a new command to download it at the first run of the workflow. 
+* You can specify other settings apart from the video path. Check with `python workflows/video-generation-workflow/workflow.py -h`.
 
-### 4. Download generated video from the latest run:
+### 3. Download generated video from the latest run:
 ```ShellSession
 $ spell cp runs/<RUN_ID>/gen.mp4
 ```
