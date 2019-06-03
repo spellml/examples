@@ -27,7 +27,7 @@ gan_weight = args.gan_weight
 # Video to pictures
 command = ""
 if video_url:
-    command = "curl -o {} {} ".format(video_path, video_url)
+    command = "curl -o {} {} && ".format(video_path, video_url)
 command += "python video2pic.py --video {} --train_ratio {}".format(video_path, train_ratio)
 r = client.runs.new(
     command=command,
