@@ -12,26 +12,22 @@ Pix2pix is an image-to-image transformation method. Given a video, we can train 
 
 # Run it
 
-### 1. Clone the [Video Generation](https://github.com/chengz3906/video-generation) repo:
-```ShellSession
-$ git clone https://github.com/chengz3906/video-generation.git
-```
-
-### 2. Clone this repo:
+### 1. Clone this repo:
 ```ShellSession
 $ git clone https://github.com/spellrun/spell-examples.git
 ```
+Notice: For this demo, you need only one workflow.py in the repo, as well as only one video file (.mp4).
 
-### 3. Run the workflow:
+### 2. Run the workflow:
 ```ShellSession
-$ cd spell-examples
-$ spell workflow --repo video-gen=../video-generation/ "python workflows/video-generation-workflow/workflow.py --video video/fireworks.mp4"
+$ cd spell-examples/workflows/video-generation-workflow
+$ spell workflow --github-repo video-gen=https://github.com/chengz3906/video-generation.git "python workflow.py --video video/fireworks.mp4"
 ```
 Notice: 
-* The above command uses a sample video. You can also choose your own video, which requires you add a new command to download it at the first run of the workflow. 
-* You can specify other optional settings apart from the video path. Check with `python workflow.py -h`.
+* The above command uses a sample video. You can also choose your own video by setting `--video_url` option for `workflow.py`. It will download the video from the url to the path referred by `--video`. (Yes, you always need to specify `--video`)
+* Check with `python workflow.py -h` for more information.
 
-### 4. Download generated video from the latest run:
+### 3. Download generated video from the latest run:
 ```ShellSession
 $ spell cp runs/<RUN_ID>/gen.mp4
 ```
@@ -47,4 +43,4 @@ The file `workflow.py` is a python script that:
 6. Transform these frames into a video.
 
 Notice:
-The [video generation](https://github.com/chengz3906/video-generation) repo is forked from [pix2pix-tensorflow](https://github.com/affinelayer/pix2pix-tensorflow), which has no built-in video generation method. Current solution is to run `pix2pix.py` once for each single frame, which is relatively slow. In experiments, it costs about 20 seconds to generate a frame on K80.
+The [video generation](https://github.com/chengz3906/video-generation) repo is forked from [pix2pix-tensorflow](https://github.com/affinelayer/pix2pix-tensorflow). This repo added support for video generation and video-image transformation. As the original repo has no built-in video generation method, current solution is to run `pix2pix.py` once for each single frame, which is relatively slow. In experiments, it costs about 20 seconds to generate a frame on K80. 
