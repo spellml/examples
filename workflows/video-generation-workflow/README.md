@@ -43,6 +43,6 @@ The file `workflow.py` is a python script that:
 6. Transform these frames into a video.
 
 Notice:
-* The [video generation](https://github.com/chengz3906/video-generation) repo is forked from [pix2pix-tensorflow](https://github.com/affinelayer/pix2pix-tensorflow). This repo added support for video-image transformation, including preparing datasets from the video, as well as transforming the output images into a video. 
+* The [video generation](https://github.com/chengz3906/video-generation) repo used in the 2nd step is forked from [pix2pix-tensorflow](https://github.com/affinelayer/pix2pix-tensorflow). This repo added support for video-image transformation, including preparing datasets from the video, as well as transforming the output images into a video. 
 * The original repo has no built-in video generation method, current solution is to run `pix2pix.py` once for each single frame, which is relatively slow. In experiments, it costs about 20 seconds to generate a frame with a K80. 
 * Time cost of training is influenced by multiple factors. Training on a dataset with 5,000 images for 200 epochs needs about 5 hours with a V100.
