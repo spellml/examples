@@ -24,7 +24,7 @@ $ cd spell-examples/workflows/video-generation-workflow
 $ spell workflow --github-repo video-gen=https://github.com/chengz3906/video-generation.git "python workflow.py --video video/fireworks.mp4"
 ```
 Notice: 
-* The above command uses a sample video. You can also choose your own video by setting `--video_url` option for `workflow.py`. It will download the video from the url to the path referred by `--video`. (Yes, you always need to specify `--video`)
+* The above command uses a sample video. You can also choose your own video by setting `--video_url` when launching `workflow.py`. It will download the video from the url to the path referred by `--video`. (Always remember to specify `--video`)
 * Check with `python workflow.py -h` for more information.
 
 ### 3. Download generated video from the latest run:
@@ -35,7 +35,7 @@ $ spell cp runs/<RUN_ID>/gen.mp4
 # Details
 
 The file `workflow.py` is a python script that:
-1. Transform fireworks.mp4 into a set of images, where each image is a combination of 2 consecutive frames.
+1. Transform the video into a set of images, where each image is a combination of 2 consecutive frames.
 2. Split the images into train and validation sets.
 3. Randomly select a frame from the val set as the starting point for video generation.
 4. Train the pix2pix model with this dataset.
@@ -43,4 +43,6 @@ The file `workflow.py` is a python script that:
 6. Transform these frames into a video.
 
 Notice:
-The [video generation](https://github.com/chengz3906/video-generation) repo is forked from [pix2pix-tensorflow](https://github.com/affinelayer/pix2pix-tensorflow). This repo added support for video generation and video-image transformation. As the original repo has no built-in video generation method, current solution is to run `pix2pix.py` once for each single frame, which is relatively slow. In experiments, it costs about 20 seconds to generate a frame on K80. 
+* The [video generation](https://github.com/chengz3906/video-generation) repo is forked from [pix2pix-tensorflow](https://github.com/affinelayer/pix2pix-tensorflow). This repo added support for video-image transformation, including preparing datasets from the video, as well as transforming the output images into a video. 
+* The original repo has no built-in video generation method, current solution is to run `pix2pix.py` once for each single frame, which is relatively slow. In experiments, it costs about 20 seconds to generate a frame with a K80. 
+* Time cost of training is influenced by multiple factors. Training on a dataset with 5,000 images for 200 epochs needs about 5 hours with a V100.
