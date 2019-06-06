@@ -5,8 +5,11 @@ import numpy as np
 from tensorflow.python.saved_model import signature_constants
 from tensorflow.python.saved_model import tag_constants
 
+
+# Loads Checkpoint from `ckpt` folder, converts it to a
+# TensorFlow SavedModel, ready to serve.
+
 g = tf.Graph()
-curr_num = 0
 soft_config = tf.ConfigProto(allow_soft_placement=True)
 soft_config.gpu_options.allow_growth = True
 with g.as_default(), tf.Session(config=soft_config) as sess:
@@ -17,12 +20,16 @@ with g.as_default(), tf.Session(config=soft_config) as sess:
     saver = tf.train.Saver()
     ckpt = tf.train.get_checkpoint_state('ckpt')
     saver.restore(sess, ckpt.model_checkpoint_path)
-    # Load weights
+    # Load image (can use any image, just need one arbitrary run of model)
     img = get_img('images/input/input_italy.jpg', (256, 256, 3))
-    print(type(img))
     X = np.zeros((1, 256, 256, 3), dtype=np.float32)
     X[0] = img
+    # run
     _preds = sess.run(preds, feed_dict={img_placeholder: X})
+
+    # If you want to freeze your graph instead of outputting a tensorflow
+    # SavedModel, uncomment code and comment out all code below
+
     # frozen_graph_def = tf.graph_util.convert_variables_to_constants(
     #     sess,
     #     sess.graph_def,
@@ -32,23 +39,11 @@ with g.as_default(), tf.Session(config=soft_config) as sess:
     # with open('output_graph.pb', 'wb') as f:
     #     f.write(frozen_graph_def.SerializeToString())
 
-    graph_def = tf.GraphDef()
     builder = tf.saved_model.builder.SavedModelBuilder(
-        './saved_model/00000123')
-    input = g.get_tensor_by_name('img_placeholder:0')
-    output = g.get_tensor_by_name('add_37:0')
-
-# with tf.gfile.GFile('output_graph.pb', "rb") as f:
-#     graph_def = tf.GraphDef()
-#     graph_def.ParseFromString(f.read())
-
+        './saved_model/00000123') # DO NOT REMOVE THE NUMBER AT THE END OF THE PATH
+    input = g.get_tensor_by_name('img_placeholder:0') #INPUT NODE
+    output = g.get_tensor_by_name('add_37:0') #OUTPUT NODE
     sigs = {}
-    # graoh_def = tf.GraphDef()
-    #
-    #
-    # tf.import_graph_def(graph_def, name="")
-    # g = tf.get_default_graph()
-
     sigs[signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY] = \
         tf.saved_model.signature_def_utils.predict_signature_def(
             {"in": input}, {"out": output})
