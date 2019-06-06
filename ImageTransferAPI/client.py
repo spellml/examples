@@ -30,7 +30,7 @@ if __name__ == '__main__':
     # IMPORTANT: Change `auth_token` to the access token of your spell model server
     # Change `server_url to the url of your spell model server`
     auth_token = 'PLACEHOLDER'
-    server_url = "https://google.com"
+    server_url = "www.google.com"
 
     # Makes POST request
 
