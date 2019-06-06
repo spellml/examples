@@ -1,23 +1,3 @@
-## Updated for TensorFlow SERVING
-
-After training model, run `python bsizemodifier.py` in terminal. This will convert the checkpoint to a TensorFlow SavedModel, which is the required format for Spell Model Servers.
-
-Then, run `spell upload <Path to SavedModel> --name <Arbitrary name that you specify>`. This will upload the model to your Spell account.
-
-Then, run `spell model-servers create <modelname:version> uploads/<name specified in the last command>`.
-
-For example, run `spell model-servers create Model:v1 uploads/model` for `--name model` in the previous command. Note that the version must be in the form `v<number>`.
-
-The terminal should display `Model Server Successfully Created!`.
-
-Go on [web.spell.run](https://web.spell.run), and click on `Servers` on the left pane. Select your newly created model, copy the url and the access token, and paste those into their respective fields in `client.py`. Change the image paths if you wish, then `python client.py` in terminal. You should end up with a 256x256 image outputted into the path you specified!
-
-NOTE: Do not delete `input_italy.jpg` in the `images/input` directory. This file is essential to `bsizemodifier.py` running properly. You may replace this image with any other image, juts replace the file path in `bsizemodifier.py`.
-
-
-
-
-
 
 ## Fast Style Transfer in [TensorFlow](https://github.com/tensorflow/tensorflow)
 
@@ -101,6 +81,22 @@ Use `transform_video.py` to transfer style into a video. Run `python transform_v
       --out-path out/video.mp4 \
       --device /gpu:0 \
       --batch-size 4
+
+## Updated for TensorFlow SERVING
+
+After training model, run `python bsizemodifier.py` in terminal. This will convert the checkpoint to a TensorFlow SavedModel, which is the required format for Spell Model Servers.
+
+Then, run `spell upload <Path to SavedModel> --name <Arbitrary name that you specify>`. This will upload the model to your Spell account.
+
+Then, run `spell model-servers create <modelname:version> uploads/<name specified in the last command>`.
+
+For example, run `spell model-servers create Model:v1 uploads/model` for `--name model` in the previous command. Note that the version must be in the form `v<number>`.
+
+The terminal should display `Model Server Successfully Created!`.
+
+Go on [web.spell.run](https://web.spell.run), and click on `Servers` on the left pane. Select your newly created model, copy the url and the access token, and paste those into their respective fields in `client.py`. Change the image paths if you wish, then `python client.py` in terminal. You should end up with a 256x256 image outputted into the path you specified!
+
+NOTE: Do not delete `input_italy.jpg` in the `images/input` directory. This file is essential to `bsizemodifier.py` running properly. You may replace this image with any other image, juts replace the file path in `bsizemodifier.py`.
 
 ### Requirements
 You will need the following to run the above:
