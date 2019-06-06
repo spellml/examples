@@ -22,7 +22,7 @@ We will use it today to attempt to turn a picture of dinosaurs into flowers (ins
 ### 1. Create a Workspace
 Learn more at https://spell.run/docs/workspaces_overview
 
-Initialize from the git repo https://github.com/spell-examples/workspaces
+Initialize from the git repo https://github.com/spell-examples/deepdream
 
 Make sure to select Caffe as the framework and K80 as the machine type
 
