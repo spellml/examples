@@ -1,4 +1,4 @@
-##Updated for TensorFlow SERVING
+## Updated for TensorFlow SERVING
 
 After training model, run `python bsizemodifier.py` in terminal. This will convert the checkpoint to a TensorFlow SavedModel, which is the required format for Spell Model Servers.
 
