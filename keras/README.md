@@ -15,9 +15,9 @@ spell hyper random \
 spell hyper bayesian \
     -t K80 \
     --metric keras/val_acc --metric-agg last \
-    --param conv2_filter=16:128:linear:int \
-    --param conv2_kernel=2:8:linear:int \
-    --param dense_layer=64:1024:linear:int \
-    --param dropout_3=0.001:0.999:linear:float \
-    -- python cifar10_cnn.py --epochs 25 --conv2_filters :conv2_filters: --conv2_kernal :conv2_kernal: --dense_layer :dense_layer: --dropout_3 :dropout_3:
+    --param conv2_filters=16:128:int \
+    --param conv2_kernel=2:8:int \
+    --param dense_layer=64:1024:int \
+    --param dropout_3=0.001:0.999:float \
+    -- python cifar10_cnn.py --epochs 25 --conv2_filters :conv2_filters: --conv2_kernel :conv2_kernel: --dense_layer :dense_layer: --dropout_3 :dropout_3:
 ```
