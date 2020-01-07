@@ -1,8 +1,8 @@
 # Simple Spell Workflow Example
 
-This is an example of how to use the Spell Python API and a workflow to
+This is an example of how to use the Spell Python API and a Workflow to
 start runs, stream logs of runs, wait for a run to reach a specific state,
-or to wait for a specific 
+or to wait for certain metric values.
 
 # Run it
 
@@ -15,11 +15,3 @@ $ git clone https://github.com/spellrun/spell-examples.git
 $ cd spell-examples
 $ spell workflow --repo metrics_sender=. python workflows/simple/workflow.py
 ```
-
-# Details
-
-The file `workflow.py` is a python script that:
-1. downloads a text file containing War and Peace, by Leo Tolstoy.
-2. trains a recurrent neural network (RNN) on the data to predict the next characters
-in a sequence
-3. uses the trained RNN to generate new text
