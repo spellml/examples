@@ -47,10 +47,11 @@ run = client.runs.new(
 )
 print("\ncreated run {}".format(run.id))
 
-# Wait for the loss metric to go below 10
+# Wait for the loss metric to go below 10, labels this run 'killed'
 print("waiting for metric value...")
 run.wait_metric("loss", client.runs.LESS_THAN, 10)
 run.kill()
+run.add_label("killed")
 print("loss reached less than 10!")
 
 # Launch multiple runs in parallel
