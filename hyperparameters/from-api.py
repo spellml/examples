@@ -1,8 +1,10 @@
+import csv
+
 import spell.client
-
 from spell.client.runs import RunsService
-
 from spell.api.models import ValueSpec
+
+METRIC_NAME="value"
 
 # Create a Spell client
 client = spell.client.from_environment()
@@ -21,9 +23,12 @@ client = spell.client.from_environment()
 search = client.hyper.new_grid_search(
     {'a': ValueSpec([0,2,4]),
      'b': ValueSpec([1.3, 1.7])},
-    commit_label="spell-examples",
+    github_url="https://github.com/spellrun/spell-examples.git",
     command="python hyperparameters/basic.py --start :a: --stepsize :b: --steps 30",
 )
+
+print("Launched a search with runs: {}".format([r.id for r in search.runs]))
+print("Waiting for the runs to finish...")
 
 # Wait for all runs to complete
 for run in search.runs:
@@ -35,3 +40,13 @@ for run in search.runs:
         print("Warning run {} finished with nonzero exit code {}".format(run.id, run.user_exit_code))
 
 print("All runs complete")
+
+# Collect all metrics and put in a CSV
+# Metrics are all of the form (time, index, value)
+# here we just extract the value and create a CSV with a row per run
+rows = [['Run ID']]
+for run in search.runs:
+    rows.append([str(run.id)] + [str(round(v[2], 5)) for v in run.metrics(METRIC_NAME)])
+
+with open("hyper_search_{}.csv".format(str(search.id)), "w", newline='') as csv_file:
+    csv.writer(csv_file).writerows(rows)
