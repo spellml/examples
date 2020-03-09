@@ -135,12 +135,17 @@ else:
                         validation_data=(x_test, y_test),
                         workers=4)
 
-# Save model and weights
+# Save trained model.
 if not os.path.isdir(save_dir):
     os.makedirs(save_dir)
-model_path = os.path.join(save_dir, model_name)
-model.save(model_path)
-print('Saved trained model at %s ' % model_path)
+model_json = model.to_json()
+model_json_path = os.path.join(save_dir, "model.json")
+with open(model_json_path, "w") as json_file:
+    json_file.write(model_json)
+print('Saved model json at %s ' % model_json_path)
+model_weights_path = os.path.join(save_dir, model_name)
+model.save(model_weights_path)
+print('Saved trained model weights at %s ' % model_weights_path)
 
 # Score trained model.
 scores = model.evaluate(x_test, y_test, verbose=1)
