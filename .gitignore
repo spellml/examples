@@ -1,3 +1,4 @@
 *.swp
 .ipynb_checkpoints
 scrap.ipynb
+.vscode
