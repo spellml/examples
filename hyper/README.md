@@ -6,7 +6,7 @@ This folder contains some resources for getting started using the Spell hyperpar
 
 ![](https://i.imgur.com/ewmZvLw.png)
 
-This tutorial showcases hyperparameter searches on Spell from the CLI. This is the code compliment to the post "An introduction to hyperparameter search with CIFAR10" on our blog. TODO: LINK.
+This tutorial showcases hyperparameter searches on Spell from the CLI. This is the code compliment to the post ["An introduction to hyperparameter search with CIFAR10"](https://spell.run/blog/an-introduction-to-hyperparameter-search-with-cifar10-Xo8_6BMAACEAkwVs) on our blog.
 
 To follow along with this tutorial in code, you will need to have:
 
