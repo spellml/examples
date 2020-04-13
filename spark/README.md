@@ -1,8 +1,10 @@
 # spark
 
-This folder contains some recipes for using Spell with a Spark cluster like Databricks or AWS EMR.
+This folder contains some resources for getting started using Spell with a Spark cluster like Databricks or AWS EMR.
 
 ## Using Spark for model featurization with Spell
+
+![](https://i.imgur.com/PzyOPVp.png)
 
 This tutorial shows how you can combine Apache Spark, Amazon S3, and Spell Workspaces to build model training features at scale in Spark, then train models using them in a Spell workspace. This is a code compliment to the post ["Using Spark for model featurization with Spell"](https://spell.run/blog/using-spark-for-model-featurization-with-spell-XnEedBUAACcAjfTV) on our blog.
 
