@@ -12,7 +12,7 @@ To follow along with this tutorial in code, you will need:
 
 * A Databricks Community account.
 * A Kaggle account.
-* An account on Spell for Team.
+* An account on Spell for Teams.
 
 If you don't already have a cluster set up, the easiest way to try out Spark is to sign up for a free community account on [Databricks](https://databricks.com/). This will give you access to a free community version of Databricks platform, including access to [Databricks Notebooks](https://docs.databricks.com/notebooks/index.html). Once you've created an account, use the import feature to upload the `spark-featurizing-demo.ipynb` notebook in this folder to Databricks:
 
