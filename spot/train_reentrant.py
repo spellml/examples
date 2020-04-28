@@ -54,9 +54,9 @@ class BobRossSegmentedImagesDataset(Dataset):
         return len(self.imgs)
     
     def __getitem__(self, i):
-        def translate(x):
-            return self.color_key[x]
-        translate = np.vectorize(translate)
+#         def translate(x):
+#             return self.color_key[x]
+#         translate = np.vectorize(translate)
         
         img = Image.open(self.imgs[i])
         img = self.transform(img)
@@ -64,7 +64,8 @@ class BobRossSegmentedImagesDataset(Dataset):
         seg = Image.open(self.segs[i])
         seg = seg.resize((256, 256))
         
-        seg = translate(np.array(seg)).astype('int64')
+        seg = seg.astype('int64')
+#         seg = translate(np.array(seg)).astype('int64')
         
         # Additionally, the original UNet implementation outputs a segmentation map
         # for a subset of the overall image, not the image as a whole! With this input
