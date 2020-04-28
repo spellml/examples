@@ -228,7 +228,7 @@ dataloader = DataLoader(dataset, shuffle=True, batch_size=8)
 # file if one is available.
 model = UNet()
 if args.checkpoint:
-    model = model.load_state_dict(torch.load(args.checkpoint))
+    model = model.load_state_dict(torch.load(f'/mnt/checkpoints/{args.checkpoint}'))
 model.cuda()
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.5)
