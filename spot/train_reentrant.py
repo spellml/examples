@@ -10,7 +10,7 @@ from pathlib import Path
 
 NUM_EPOCHS = 50
 
-# NEW: instead of always starting the zeroeth epoch, check if the user passed a checkpoint.
+# Instead of always starting the zeroeth epoch, check if the user passed a checkpoint.
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--from-checkpoint', type=str, dest='checkpoint', default='')
@@ -224,8 +224,8 @@ dataroot = Path('/mnt/segmented-bob-ross-images/')
 dataset = BobRossSegmentedImagesDataset(dataroot)
 dataloader = DataLoader(dataset, shuffle=True, batch_size=8)
 
-# NEW: instead of always initializing an empty model, initialize from the checkpoints
-#      file if one is available.
+# Instead of always initializing an empty model, initialize from the checkpoints
+# file if one is available.
 model = UNet()
 if args.checkpoint:
     model = model.load_state_dict(torch.load(args.checkpoint))
@@ -250,17 +250,11 @@ for epoch in EPOCHS:
         scheduler.step()
 
         curr_loss = loss.item()
-        if i % 50 == 0:
-            print(
-                f'Finished epoch {epoch}, batch {i}. Loss: {curr_loss:.3f}.'
-            )
         losses.append(curr_loss)
 
-    print(
-        f'Finished epoch {epoch}. '
-        f'avg loss: {np.mean(losses)}; median loss: {np.min(losses)}'
-    )
+    print(f'Finished epoch {epoch}.')
 
-    # NEW: save the model checkpoints file every 10 epochs
+    # Save the model checkpoints file every 10 epochs
     if epoch % 10 == 0:
         torch.save(model.state_dict(), f'{epoch}_net.pth')
+        print(f'Saved model to {epoch}_net.pth.')

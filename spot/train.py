@@ -51,7 +51,7 @@ class BobRossSegmentedImagesDataset(Dataset):
         img = self.transform(img)
         
         seg = Image.open(self.segs[i])
-        seg = seg.resize((256, 256))
+        seg = seg.resize((256, 256), Image.NEAREST)
         
         seg = translate(np.array(seg)).astype('int64')
         
@@ -209,7 +209,7 @@ class UNet(nn.Module):
         x = self.conv_8_1(x)
         return x
 
-dataroot = Path('/spell/bob-ross-kaggle-dataset/')
+dataroot = Path('/mnt/segmented-bob-ross-images/')
 dataset = BobRossSegmentedImagesDataset(dataroot)
 dataloader = DataLoader(dataset, shuffle=True, batch_size=8)
 
@@ -235,15 +235,8 @@ for epoch in range(NUM_EPOCHS):
         scheduler.step()
 
         curr_loss = loss.item()
-        if i % 50 == 0:
-            print(
-                f'Finished epoch {epoch}, batch {i}. Loss: {curr_loss:.3f}.'
-            )
         losses.append(curr_loss)
 
-    print(
-        f'Finished epoch {epoch}. '
-        f'avg loss: {np.mean(losses)}; median loss: {np.min(losses)}'
-    )
+    print(f'Finished epoch {epoch}.')
 
 torch.save(model.state_dict(), '50_net.pth')
