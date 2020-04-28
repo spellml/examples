@@ -15,11 +15,11 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--from-checkpoint', type=str, dest='checkpoint', default='')
 args = parser.parse_args()
-if args['checkpoint']:
-    EPOCHS = range(NUM_EPOCHS)
-else:
-    first_remaining_epoch = int(args['checkpoint'].split('_')[0]) + 1
+if args.checkpoint:
+    first_remaining_epoch = int(args.checkpoint.split('_')[0]) + 1
     EPOCHS = range(first_remaining_epoch, NUM_EPOCHS)
+else:
+    EPOCHS = range(NUM_EPOCHS)
 
 class BobRossSegmentedImagesDataset(Dataset):
     def __init__(self, dataroot):
@@ -220,15 +220,15 @@ class UNet(nn.Module):
         x = self.conv_8_1(x)
         return x
 
-dataroot = Path('/spell/bob-ross-kaggle-dataset/')
+dataroot = Path('/mnt/segmented-bob-ross-images/')
 dataset = BobRossSegmentedImagesDataset(dataroot)
 dataloader = DataLoader(dataset, shuffle=True, batch_size=8)
 
 # NEW: instead of always initializing an empty model, initialize from the checkpoints
 #      file if one is available.
 model = UNet()
-if args['checkpoint']:
-    model = model.load_state_dict(torch.load(checkpoint))
+if args.checkpoint:
+    model = model.load_state_dict(torch.load(args.checkpoint))
 model.cuda()
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.5)
@@ -261,6 +261,6 @@ for epoch in EPOCHS:
         f'avg loss: {np.mean(losses)}; median loss: {np.min(losses)}'
     )
 
-    # save the model checkpoints file every 10 epochs
+    # NEW: save the model checkpoints file every 10 epochs
     if epoch % 10 == 0:
         torch.save(model.state_dict(), f'{epoch}_net.pth')
