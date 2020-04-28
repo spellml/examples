@@ -227,9 +227,9 @@ dataloader = DataLoader(dataset, shuffle=True, batch_size=8)
 # Instead of always initializing an empty model, initialize from the checkpoints
 # file if one is available.
 model = UNet()
+model.cuda()
 if args.checkpoint:
     model = model.load_state_dict(torch.load(f'/mnt/checkpoints/{args.checkpoint}'))
-model.cuda()
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.5)
 scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=32)
