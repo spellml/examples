@@ -6,7 +6,7 @@ This folder contains some resources on writing *reentrant* model training script
 
 ![](https://i.imgur.com/NYowq6j.png)
 
-This blog post, ["Automating GPU machine failure recovery in Google Compute Engine"](https://spell.run/blog/automated-machine-failure-recovery-Xp3TEhEAACUAYwPM), discusses GPU host maintenance (aka the `REPAIRING` machine state) on GCP. The `reentrancy-demo.ipynb` Jupyter notebook contains some helpful code samples. You can launch this notebook from a Spell workspace by running the following CLI command (requires having the `spell` package installed):
+This blog post, ["Automating GPU machine failure recovery in Google Compute Engine"](https://spell.run/blog/automated-machine-failure-recovery-Xp3TEhEAACUAYwPM), discusses GPU host maintenance (aka the `REPAIRING` machine state) on GCP. The `reentrancy-demo.ipynb` Jupyter notebook contains some helpful code samples. You can launch this notebook by running the following CLI command (requires having the `spell` package installed):
 
 ```bash
 spell jupyter \
