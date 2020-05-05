@@ -1,6 +1,6 @@
 # workflows
 
-This folder contains a tutorial and some example scripts covering [Spell workflows](http://aleksey.spell:3000/docs/workflow_overview/).
+This folder contains a tutorial and some example scripts covering [Spell workflows](http://spell.run/docs/workflow_overview/).
 
 ## Tutorial
 
@@ -14,3 +14,11 @@ spell jupyter \
     --github-url https://github.com/spellrun/spell-examples.git \
     workflows-demo-workspace
 ```
+
+## Other examples
+
+This folder also contains two other workflow examples.
+
+The `video-generation-workflow` folder contains an example workflow generating videos using the [pix2pix](https://github.com/affinelayer/pix2pix-tensorflow) model.
+
+The `with-metrics` folder contains an example workflow leveraging the [Spell metics API](http://spell.run/docs/metrics/).
