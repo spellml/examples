@@ -3,3 +3,4 @@
 scrap.ipynb
 .vscode
 .DS_Store
+workflows/char-rnn-tensorflow/
