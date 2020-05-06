@@ -42,7 +42,7 @@ run.wait_status(client.runs.COMPLETE)
 
 # Launch a new run which sends a metric 'loss' with values 30, 29, 28, ...
 run = client.runs.new(
-    command="python workflows/simple/send_metrics.py",
+    command="python workflows/with-metrics/send_metrics.py",
     commit_label="metrics_sender",
 )
 print("\ncreated run {}".format(run.id))
