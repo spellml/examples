@@ -10,7 +10,7 @@ class Predictor(BasePredictor):
         model = AutoModelForQuestionAnswering.from_pretrained("/model/model")
         tokenizer = AutoTokenizer.from_pretrained("/model/tokenizer")
         self.predictor = pipeline("question-answering", model=model, tokenizer=tokenizer)
-        with open("/code/context.txt") as f:
+        with open("/mnt/context.txt") as f:
             self.context = f.read()
 
     def predict(self, payload):
