@@ -2,7 +2,7 @@
 
 This folder contains some resources for getting started using the Spell hyperparameter search feature.
 
-## An introduction to hyperparameter search with CIFAR10
+## An introduction to hyperparameter search with CIFAR10 <a href="https://web.spell.ml/workspace_create?workspaceName=hyper-demo-workspace&githubUrl=https%3A%2F%2Fgithub.com%2Fspellml%2Fexamples"><img src=https://spell.ml/badge.svg height=20px/></a>
 
 ![](https://i.imgur.com/ewmZvLw.png)
 
