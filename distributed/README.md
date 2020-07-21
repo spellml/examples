@@ -10,6 +10,6 @@ This blog post, ["Distributed model training in PyTorch using DistributedDataPar
 
 ## Distributed model training using Horovod <a href="https://web.spell.ml/workspace_create?workspaceName=hyper-demo-workspace&githubUrl=https%3A%2F%2Fgithub.com%2Fspellml%2Fexamples"><img src=https://spell.ml/badge.svg height=20px/></a>
 
-This blog post, ["Distributed model training using Horovod"](https://spell.ml/blog/distributed-model-training-using-horovod-XvqEGRUAACgAa5th), discusses distributed training using the PyTorch-native `DistributedDataParallel` feature.
+This blog post, ["Distributed model training using Horovod"](https://spell.ml/blog/distributed-model-training-using-horovod-XvqEGRUAACgAa5th), discusses distributed training using Uber's [Horovod](https://github.com/horovod/horovod) library.
 
 ![](https://i.imgur.com/sWq2UL2.png)
