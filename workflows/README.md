@@ -1,4 +1,4 @@
-# workflows
+# workflows <a href="https://web.spell.ml/workspace_create?workspaceName=workflows-demo&githubUrl=https%3A%2F%2Fgithub.com%2Fspellml%2Fexamples"><img src=https://spell.ml/badge.svg height=20px/></a>
 
 This folder contains a tutorial and some example scripts covering [Spell workflows](http://spell.run/docs/workflow_overview/).
 
@@ -11,7 +11,7 @@ Check out the `workflows-demo.ipynb` notebook to get started. You can run this t
 ```bash
 spell jupyter \
     --lab \
-    --github-url https://github.com/spellrun/spell-examples.git \
+    --github-url https://github.com/spellml/examples.git \
     workflows-demo-workspace
 ```
 
