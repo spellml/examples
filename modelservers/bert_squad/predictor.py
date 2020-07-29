@@ -6,7 +6,7 @@ from transformers.tokenization_auto import AutoTokenizer
 
 
 class Predictor(BasePredictor):
-    def __init__(self, config):
+    def __init__(self):
         model = AutoModelForQuestionAnswering.from_pretrained("/model/model")
         tokenizer = AutoTokenizer.from_pretrained("/model/tokenizer")
         self.predictor = pipeline("question-answering", model=model, tokenizer=tokenizer)
