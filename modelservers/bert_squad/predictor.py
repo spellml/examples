@@ -9,6 +9,7 @@ class Predictor(BasePredictor):
     def __init__(self):
         model = AutoModelForQuestionAnswering.from_pretrained("/model/model")
         tokenizer = AutoTokenizer.from_pretrained("/model/tokenizer")
+        self.default_response = "Perhaps the answer is 42."
         self.predictor = pipeline(
             "question-answering", model=model, tokenizer=tokenizer
         )
@@ -19,9 +20,8 @@ class Predictor(BasePredictor):
         question = payload["question"]
         context = payload.get("context", self.context)
 
-        default_response = "Perhaps the answer is 42."
         try:
             res = self.predictor({"question": question, "context": context})
         except Exception:
-            res = default_response
+            res = self.default_response
         return res
