@@ -11,5 +11,5 @@ class Predictor(BasePredictor):
 
     def predict(self, payload):
         proc = subprocess.run(["nvidia-smi"], capture_output=True, check=True)
-        return "{}\n{}".format(proc.stdout.decode(self.encoding))
+        return proc.stdout.decode(self.encoding)
 
