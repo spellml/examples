@@ -10,7 +10,6 @@ class Predictor(BasePredictor):
         self.encoding = 'utf-8'
 
     def predict(self, payload):
-        time_proc = subprocess.run(["date"], capture_output=True, check=True)
         proc = subprocess.run(["nvidia-smi"], capture_output=True, check=True)
-        return "{}\n{}".format(time_proc.stdout.decode(self.encoding), proc.stdout.decode(self.encoding))
+        return "{}\n{}".format(proc.stdout.decode(self.encoding))
 
