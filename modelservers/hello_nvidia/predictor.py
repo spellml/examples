@@ -7,9 +7,9 @@ class Predictor(BasePredictor):
     Print out GPU information when the predictor endpoint is hit.
     """
     def __init__(self):
-        self.encoding = 'utf-8'
+        pass
 
     def predict(self, payload):
-        proc = subprocess.run(["nvidia-smi"], capture_output=True, check=True)
-        return proc.stdout.decode(self.encoding)
+        proc = subprocess.run(["nvidia-smi"], capture_output=True, check=True, text=True)
+        return proc.stdout
 
