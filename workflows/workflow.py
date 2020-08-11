@@ -16,7 +16,7 @@ if r1.status != client.runs.COMPLETE:
 # create the second run to train char-RNN on the dataset
 data_dir = "/data"
 r2 = client.runs.new(
-    machine_type="V100",
+    machine_type="t4",
     command="python train.py --data_dir={}".format(data_dir),
     attached_resources={
         "runs/{}/input.txt".format(r1.id): "{}/input.txt".format(data_dir)
@@ -32,7 +32,7 @@ if r2.status != client.runs.COMPLETE:
 
 # create the third run that samples the model to generate some text
 r3 = client.runs.new(
-    machine_type="V100",
+    machine_type="t4",
     command="python sample.py",
     attached_resources={"runs/{}/save".format(r3.id): "save"},
     commit_label="char-rnn",
