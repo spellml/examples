@@ -22,3 +22,9 @@ This blog post, ["Automating GPU machine failure recovery in Google Compute Engi
 ![](https://i.imgur.com/zD4l5gF.png)
 
 This blog post, ["Reducing GPU model training costs by 66% using spot instances"](https://spell.run/blog/reducing-gpu-model-training-costs-using-spot-XqtgJBAAACMAR6h8), discusses GPU spot instances and how they work on Spell.
+
+## Making model training scripts robust to spot interruptions
+
+![](https://i.imgur.com/zD4l5gF.png)
+
+This blog post, ["Making model training scripts robust to spot interruptions" LINK FORTHCOMING](LINK FORTHCOMING), is a follow-up to the previous blog post that shows how you can use Spell runs' `--auto-resume` feature to create model training scripts that automatically restart on interruption.
