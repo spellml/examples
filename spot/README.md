@@ -25,6 +25,6 @@ This blog post, ["Reducing GPU model training costs by 66% using spot instances"
 
 ## Making model training scripts robust to spot interruptions
 
-![](https://i.imgur.com/zD4l5gF.png)
+![](https://i.imgur.com/WFBTUBA.png)
 
-This blog post, ["Making model training scripts robust to spot interruptions" LINK FORTHCOMING](LINK FORTHCOMING), is a follow-up to the previous blog post that shows how you can use Spell runs' `--auto-resume` feature to create model training scripts that automatically restart on interruption.
+This blog post, ["Making model training scripts robust to spot interruptions"](https://spell.ml/blog/spot-interruptions-XzQ5jRIAACIAK3h2), is a follow-up to the previous blog post that shows how you can use Spell runs' `--auto-resume` feature to create model training scripts that automatically restart on interruption.

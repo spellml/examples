@@ -125,5 +125,5 @@ for epoch in EPOCHS:
 
     # Save the model checkpoints file every 5 epochs
     if epoch % 5 == 0:
-        torch.save(model.state_dict(), f'{epoch}_net.pth')
+        torch.save(model.state_dict(), f'/spell/checkpoints/{epoch}_net.pth')
         print(f'Saved model to {epoch}_net.pth.')
