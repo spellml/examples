@@ -19,10 +19,15 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--from-checkpoint', type=str, dest='checkpoint', default='')
 parser.add_argument('--resume', type=bool, dest='resume', default=False)
 args = parser.parse_args()
-if args.default:
-    checkpoint_epoch = max([int(re.findall("[0-9]{1,2}", fp)[0]) for fp in os.listdir("/mnt/checkpoints/")])
-    first_remaining_epoch = checkpoint_epoch + 1
-    EPOCHS = range(first_remaining_epoch, NUM_EPOCHS)
+if args.resume:
+    if not os.path.exists("/mnt/checkpoints/") or len(os.listdir("/mnt/checkpoints/")) == 0:
+        EPOCHS = range(NUM_EPOCHS)
+    else:
+        checkpoint_epoch = max(
+            [int(re.findall("[0-9]{1,2}", fp)[0]) for fp in os.listdir("/mnt/checkpoints/")]
+        )
+        first_remaining_epoch = checkpoint_epoch + 1
+        EPOCHS = range(first_remaining_epoch, NUM_EPOCHS)
 elif args.checkpoint:
     first_remaining_epoch = int(args.checkpoint.split('_')[0]) + 1
     EPOCHS = range(first_remaining_epoch, NUM_EPOCHS)
