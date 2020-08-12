@@ -8,6 +8,7 @@ from PIL import Image
 import numpy as np
 from pathlib import Path
 import re
+import os
 
 from unet import UNet
 
@@ -17,22 +18,8 @@ NUM_EPOCHS = 50
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--from-checkpoint', type=str, dest='checkpoint', default='')
-parser.add_argument('--resume', type=bool, dest='resume', default=False)
+parser.add_argument('--resume', action='store_true')
 args = parser.parse_args()
-if args.resume:
-    if not os.path.exists("/mnt/checkpoints/") or len(os.listdir("/mnt/checkpoints/")) == 0:
-        EPOCHS = range(NUM_EPOCHS)
-    else:
-        checkpoint_epoch = max(
-            [int(re.findall("[0-9]{1,2}", fp)[0]) for fp in os.listdir("/mnt/checkpoints/")]
-        )
-        first_remaining_epoch = checkpoint_epoch + 1
-        EPOCHS = range(first_remaining_epoch, NUM_EPOCHS)
-elif args.checkpoint:
-    first_remaining_epoch = int(args.checkpoint.split('_')[0]) + 1
-    EPOCHS = range(first_remaining_epoch, NUM_EPOCHS)
-else:
-    EPOCHS = range(NUM_EPOCHS)
 
 class BobRossSegmentedImagesDataset(Dataset):
     def __init__(self, dataroot):
@@ -94,13 +81,27 @@ dataloader = DataLoader(dataset, shuffle=True, batch_size=8)
 # file if one is available.
 model = UNet()
 model.cuda()
-if args.resume:
-    model.load_state_dict(torch.load(f'/mnt/checkpoints/{checkpoint_epoch}_net.pth'))
-elif args.checkpoint:
-    model.load_state_dict(torch.load(f'/mnt/checkpoints/{args.checkpoint}'))
+
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.5)
 scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=32)
+
+if args.resume:
+    if not os.path.exists("/spell/checkpoints/") or len(os.listdir("/spell/checkpoints/")) == 0:
+        EPOCHS = range(NUM_EPOCHS)
+    else:
+        checkpoint_epoch = max(
+            [int(re.findall("[0-9]{1,2}", fp)[0]) for fp in os.listdir("/spell/checkpoints/")]
+        )
+        model.load_state_dict(torch.load(f'/spell/checkpoints/{checkpoint_epoch}_net.pth'))
+        first_remaining_epoch = checkpoint_epoch + 1
+        EPOCHS = range(first_remaining_epoch, NUM_EPOCHS)
+elif args.checkpoint:
+    first_remaining_epoch = int(args.checkpoint.split('_')[0]) + 1
+    EPOCHS = range(first_remaining_epoch, NUM_EPOCHS)
+    model.load_state_dict(torch.load(f'/spell/checkpoints/{args.checkpoint}'))
+else:
+    EPOCHS = range(NUM_EPOCHS)
 
 for epoch in EPOCHS:
     losses = []
