@@ -1,0 +1,26 @@
+apt: []
+args: []
+background: false
+command: python keras/cifar10_cnn.py --conv2_filter 72 --conv2_kernel 8 --dense_layer
+  256 --dropout_3 0.2
+commit-ref: HEAD
+conda-file: null
+description: null
+distributed: null
+docker-image: null
+env: []
+force: false
+framework: null
+github-ref: null
+github-url: null
+idempotent: false
+label: []
+local-caching: false
+machine-type: t4
+mount: []
+pip: []
+pip-req: null
+provider: null
+stop-condition: []
+tensorboard-dir: null
+verbose: false
