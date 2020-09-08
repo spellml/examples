@@ -4,7 +4,7 @@ This directory contains an example model trained on mnist and one on cifar10. Th
 
 ```
 spell hyper random \
-    -t K80 --pip idx2numpy \
+    -t T4 --pip idx2numpy \
     --param conv3-filters=4:64:linear:int \
     --param dense-size=10:100:linear:int \
     --param dropout=0.001:0.999:linear:float \
@@ -13,8 +13,8 @@ spell hyper random \
 
 ```
 spell hyper bayesian \
-    -t K80 \
-    --metric keras/val_acc --metric-agg last \
+    -t T4 \
+    --metric keras/val_accuracy --metric-agg last \
     --param conv2_filter=16:128:int \
     --param conv2_kernel=2:8:int \
     --param dense_layer=64:1024:int \
