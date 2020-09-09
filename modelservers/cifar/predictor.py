@@ -8,20 +8,23 @@ from base64 import b64decode
 
 from spell.serving import BasePredictor
 
-categories = {
-    0: "airplane",
-    1: "automobile",
-    2: "bird",
-    3: "cat",
-    4: "deer",
-    5: "dog",
-    6: "frog",
-    7: "horse",
-    8: "ship",
-    9: "truck",
-}
+
+categories = [
+    "airplane",
+    "automobile",
+    "bird",
+    "cat",
+    "deer",
+    "dog",
+    "frog",
+    "horse",
+    "ship",
+    "truck",
+]
+
 
 MODEL_PATH = "/model/model.h5"
+
 
 class PythonPredictor(BasePredictor):
     def __init__(self):
