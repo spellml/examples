@@ -6,8 +6,7 @@ from keras.preprocessing.image import img_to_array
 from io import BytesIO
 from base64 import b64decode
 
-from spell.serving import BasePredictor
-
+from spell.serving import BasePredictor, metrics
 
 categories = [
     "airplane",
@@ -40,5 +39,10 @@ class PythonPredictor(BasePredictor):
 
         # Wrap image in a np.array and evaulate via trained model
         x_test = np.array([scaled_img])
-        predict_cat_index = self.model.predict_classes(x_test)[0]
-        return categories[predict_cat_index]
+        probabilities = self.model.predict(x_test)[0]
+        index = np.argmax(probabilities)
+        probability = probabilities[index]
+        prediction = categories[index]
+        print(f"Predicted {prediction} with confidence {probability}") 
+        metrics.send_metric("confidence", probability, tag=prediction)
+        return prediction
