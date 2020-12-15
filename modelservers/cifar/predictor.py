@@ -43,6 +43,9 @@ class PythonPredictor(BasePredictor):
         index = np.argmax(probabilities)
         probability = probabilities[index]
         prediction = categories[index]
+
+        # Send diagnostic information
         print(f"Predicted {prediction} with confidence {probability}") 
         metrics.send_metric("confidence", probability, tag=prediction)
+
         return prediction
