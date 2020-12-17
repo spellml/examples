@@ -1,15 +1,9 @@
 # Create a pretrained ResNet50 model server and run a load test
 
 #### 1. Create the model
-
-##### Using a Spell Run
-1. Create a run with downloads the model `spell run python make_resnet50.py`
-2. Create a Spell model from the H5 model file using `spell model create --file modelservers/resnet50/model.h5:model.h5 resnet50 runs/<RUN_ID>`
-
-##### Uploading the model
-1. Locally run `python make_resnet50.py`
-2. Upload the resulting `model.h5` model using `spell upload --name resnet50.h5 ./model.h5`
-3. Create a Spell model from the uploaded H5 model file using `spell model create --file resnet50.h5:model.h5 resnet50 uploads/resnet50.h5`
+1. Locally run `python save_resnet50.py`
+2. Upload the resulting `model.h5` model file using `spell upload --name resnet50.h5 ./model.h5`
+3. Create a Spell model from the uploaded H5 model file using `spell model create --file model.h5 resnet50 uploads/resnet50.h5`
 
 #### 2. Start the model servers
 Start the unbatched predictor with 
@@ -32,6 +26,7 @@ $ spell server serve \
   --env MODEL_PATH=/model/model.h5 \
   --node-group <YOUR_NODE_GROUP_WITH_GPU> \
   --gpu-limit 1 \
+  --no-open \
   --classname BatchPredictor \
   --request-timeout 25 \
   resnet50:v1 predictor.py
@@ -74,19 +69,15 @@ $ spell run \
     --latency-limit 1000 \
     --img-path cat.jpeg
 ```
-
-#### 4. Gather the results
-
-```shell
-$ mkdir ./loadtest-results
-$ spell cp runs/<UNBATCHED_RUN_ID>/modelservers/resnet50/loadtest loadtest
-$ spell cp runs/<BATCHED_RUN_ID>/modelservers/resnet50/loadtest loadtest
-```
-
-#### 5. Visualize the results
+#### 4. Visualize the results
 ##### Locally
-Start a Jupyter notebook and open the `loadtest.ipynb` notebook
-
+1. Gather the results
+   ```shell
+   $ mkdir ./loadtest-results
+   $ spell cp runs/<UNBATCHED_RUN_ID>/modelservers/resnet50/loadtest loadtest
+   $ spell cp runs/<BATCHED_RUN_ID>/modelservers/resnet50/loadtest loadtest
+   ```
+2. Start a Jupyter notebook and open the `loadtest.ipynb` notebook
 ##### On Spell
 
 ```shell
