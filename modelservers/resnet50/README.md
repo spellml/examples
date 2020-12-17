@@ -33,7 +33,7 @@ $ spell server serve \
 ```
 
 #### 3. Run the load test
-Run the load test on a Spell run to get a more consistent network throughput. 
+Run the load test on a Spell run to get more consistent network throughput. 
 ```shell
 $ spell run \
   --pip aiohttp \
