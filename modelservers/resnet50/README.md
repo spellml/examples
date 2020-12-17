@@ -90,7 +90,6 @@ Start a Jupyter notebook and open the `loadtest.ipynb` notebook
 ##### On Spell
 
 ```shell
-$ spell upload ./loadtest.ipynb
 $ spell jupyter \
   --lab \
   --mount uploads/loadtest.ipynb
