@@ -92,7 +92,6 @@ Start a Jupyter notebook and open the `loadtest.ipynb` notebook
 ```shell
 $ spell jupyter \
   --lab \
-  --mount uploads/loadtest.ipynb
   --mount runs/<UNBATCHED_RUN_ID>/modelservers/resnet50/loadtest/unbatched/consolidated.csv:unbatched.csv \
   --mount runs/<BATCHED_RUN_ID>/modelservers/resnet50/loadtest/batched-t25/consolidated.csv:batched-t25.csv \
   loadtest
