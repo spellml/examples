@@ -1,0 +1,11 @@
+input_features:
+    -
+        name: description
+        type: text
+
+output_features:
+    -
+        name: points
+        type: numerical
+training:
+    'epochs': 1
