@@ -1,0 +1,2 @@
+['remote "spell-share"']
+    url = s3://spell-share/dvc-exploration/

@@ -1,0 +1,4 @@
+outs:
+- md5: 10ac52bb2b805fe1a9de704d2f5a5be1
+  size: 11875
+  path: new_york_city_pumpkin_prices.csv
