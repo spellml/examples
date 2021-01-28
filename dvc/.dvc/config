@@ -1,0 +1,3 @@
+['remote "spell-datasets-share"']
+    url = s3://spell-datasets-share/dvc/
+    profile = spell2
