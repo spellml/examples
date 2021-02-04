@@ -2,6 +2,16 @@
 
 This demo shows off how a Spell model server can be instrumented using [Arize](https://arize.com/) for model logging, tracking, and drift detection.
 
+What it looks like on Spell:
+
+![](https://i.imgur.com/bNskJrK.png)
+
+What it looks like on Arize:
+
+![](https://i.imgur.com/v9lJQef.png)
+
+Quickstart:
+
 ```bash
 # First, train the model in a Spell run.
 $ spell run \
