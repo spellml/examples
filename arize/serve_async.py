@@ -44,7 +44,7 @@ class PythonPredictor(BasePredictor):
         results = list(np.round(self.model.predict(payload)))
 
         tasks.add_task(
-            log_to_arize, self.arize_client, self.model_id, self.model_version
+            log_to_arize, results, self.arize_client, self.model_id, self.model_version
         )
 
         response = {'result': results}
