@@ -36,6 +36,6 @@ curl -X POST -d '@test_payload.txt' \
     https://$REGION.$CLUSTER.spell.services/$ORGANIZATION/churn-prediction/predict
 ```
 
-`serve_sync.py` is thea version of this model server that logs synchronously. `serve_async.py` is a higher-performance version of this entrypoint that logs asynchronously using [Starlette background tasks](https://spell.ml/docs/model_servers/).
+`serve_sync.py` is the version of this model server that logs synchronously. `serve_async.py` is a higher-performance version of this entrypoint that logs asynchronously using [Starlette background tasks](https://spell.ml/docs/model_servers/).
 
-For more information refer to our forthcoming blog post.
+For more information refer to our blog post.
