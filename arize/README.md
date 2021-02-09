@@ -38,4 +38,4 @@ curl -X POST -d '@test_payload.txt' \
 
 `serve_sync.py` is the version of this model server that logs synchronously. `serve_async.py` is a higher-performance version of this entrypoint that logs asynchronously using [Starlette background tasks](https://spell.ml/docs/model_servers/).
 
-For more information refer to our blog post.
+For more information refer to our blog post: ["ML Observability with Spell and Arize"](https://spell.ml/blog/ml-observability-with-spell-and-arize-YB1-mxEAACoAnCOx).
