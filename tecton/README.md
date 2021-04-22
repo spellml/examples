@@ -26,4 +26,4 @@ $ curl -d '{"ad_id": "5417", "user_uuid": "6c423390-9a64-52c8-9bb3-bbb108c74198"
 {"target":0}%
 ```
 
-For more information refer to our blog post.
+For more information refer to [our blog post draft](https://docs.google.com/document/d/17Ioa2qzCFQRq6eVmek3SaXPtEmdfSSPUAHYGzOgPBFs/edit?usp=sharing).
