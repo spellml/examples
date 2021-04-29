@@ -9,6 +9,7 @@ from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 import spell.metrics as metrics
 
+
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -44,10 +45,10 @@ def train(args, model, device, train_loader, optimizer, epoch):
         loss = F.nll_loss(output, target)
         loss.backward()
         optimizer.step()
-        
+
         # added a log line here
         metrics.send_metric("train_nll_loss", loss.item())
-        
+
         if batch_idx % args.log_interval == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
@@ -67,7 +68,7 @@ def test(model, device, test_loader):
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
-    
+
     # added a log line here
     metrics.send_metric("test_avg_nll_loss", test_loss)
 
@@ -115,23 +116,23 @@ def main():
         batch_size=args.batch_size, shuffle=True, **kwargs)
     test_loader = torch.utils.data.DataLoader(
         datasets.MNIST('../data', train=False, transform=transforms.Compose([
-                           transforms.ToTensor(),
-                           transforms.Normalize((0.1307,), (0.3081,))
-                       ])),
+            transforms.ToTensor(),
+            transforms.Normalize((0.1307,), (0.3081,))
+        ])),
         batch_size=args.test_batch_size, shuffle=True, **kwargs)
 
     model = Net().to(device)
     optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
 
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
-        
+
     for epoch in range(1, args.epochs + 1):
         train(args, model, device, train_loader, optimizer, epoch)
         test(model, device, test_loader)
-        
+
         # added a log line here
         metrics.send_metric("scheduler_lr", scheduler.get_last_lr())
-        
+
         scheduler.step()
 
     if args.save_model:

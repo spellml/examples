@@ -1,5 +1,13 @@
-# Modelservers
+# modelservers
 
-Model servers allow you to deploy a trained model as a web API. Check out the docs at https://spell.ml/docs/model_servers. They include a quickstart which uses the code in the cifar directory here.
+Model servers allow you to deploy a trained model as a web API.
 
-Model servers can easily be deployed on different types of machines, see https://spell.ml/docs/model_servers#node-groups. hello_nvidia is a simple hello world predictor which verifies you're using the GPU.
+The [Model Servers](https://spell.ml/docs/model_servers) page in the docs for more information. If you are just getting started with Spell model servers, we recommend taking a look at [the Spell quickstart](https://spell.ml/docs/quickstart/) instead.
+
+This directory contains a few simple demo scripts featuring model servers:
+
+* `bert_squad`&mdash;a `AutoModelForQuestionAnswering` `transformers` model server for question-answer pairs.
+* `cifar`&mdash;a simple `CIFAR10` example using `tensorflow` and `keras`.
+* `hello_nvidia`&mdash;a model server that prints out `nvidia-smi` when hit, used for GPU testing.
+* `resnet50`&mdash;a complex `resnet50` example using `tensorflow`.
+* `simple_metrics`&mdash;a demo script demonstrating the [model server metrics](https://spell.ml/docs/model_servers/#viewing-and-writing-model-server-metrics) feature.

@@ -43,4 +43,3 @@ class Predictor(BasePredictor):
         )
 
         return json.dumps({"response": minutes_since_hour})
-
