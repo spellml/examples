@@ -1,0 +1,25 @@
+name: spell
+channels:
+  - conda-forge
+dependencies:
+  - numpy
+  - pandas
+  - tornado
+  - pip
+  - pip:
+    # NOTE(aleksey): because of AskUbuntu#1334667, we need an old version of XGBoost, as recent
+    # versions are not compatible with our base image, Ubuntu 18.04. XGBoost is required in this
+    # environment because TVM uses it as its search space optimization algorithm in the tuning
+    # pass.
+    - xgboost==1.1.0
+    - torch==1.8.1
+    - torchvision
+    - cloudpickle
+    - psutil
+    - spell
+    - kaggle
+    - tokenizers
+    - transformers
+    # NOTE(aleksey): this dependency on pytest is probably accidental, as it isn't documented.
+    # But without it, the TVM Python package will not import successfully.
+    - pytest
