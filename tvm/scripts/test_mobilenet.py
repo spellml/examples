@@ -1,15 +1,17 @@
 # Model code adpated from:
 # https://github.com/spellml/mobilenet-cifar10/blob/master/servers/eval_quantized_t4.py
 import math
-import torch
-import os
+# import os
+import time
+import numpy as np
 
 import torch
+from torch import optim
 import torch.nn as nn
 import torchvision
 from torch.utils.data import DataLoader
 
-from tvm_funcs import *
+from tvm_funcs import get_tvm_model, tune, time_it
 
 
 def conv_bn(inp, oup, stride):
@@ -19,12 +21,14 @@ def conv_bn(inp, oup, stride):
         nn.ReLU6(inplace=True)
     )
 
+
 def conv_1x1_bn(inp, oup):
     return nn.Sequential(
         nn.Conv2d(inp, oup, 1, 1, 0, bias=False),
         nn.BatchNorm2d(oup),
         nn.ReLU6(inplace=True)
     )
+
 
 def make_divisible(x, divisible_by=8):
     import numpy as np
@@ -137,8 +141,10 @@ class MobileNetV2(nn.Module):
 
 def get_model():
     mobilenet = MobileNetV2(width_mult=1, n_class=10, input_size=32)
-    # mobilenet.load_state_dict(torch.load("/mnt/checkpoints/model_10.pth"))
-    mobilenet.load_state_dict(torch.load("/spell/notebooks/mobilenet/checkpoints/model_10.pth"))
+    mobilenet.load_state_dict(
+        torch.load("/mnt/checkpoints/model_10.pth", map_location=torch.device('cpu'))
+    )
+    # mobilenet.load_state_dict(torch.load("/spell/notebooks/mobilenet/checkpoints/model_10.pth"))
     return mobilenet
 
 
@@ -153,20 +159,69 @@ def get_dataloader():
     return dataloader
 
 
+def train(model):
+    print(f"Training the model...")
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters())
+    start_time = time.time()
+
+    # NUM_EPOCHS = 0
+    # NUM_EPOCHS = 1
+    NUM_EPOCHS = 10
+    for epoch in range(1, NUM_EPOCHS + 1):
+        losses = []
+
+        for i, (X_batch, y_cls) in enumerate(dataloader):
+            optimizer.zero_grad()
+
+            y = y_cls
+            X_batch = X_batch
+            # y = y_cls.cuda()
+            # X_batch = X_batch.cuda()
+
+            y_pred = model(X_batch)
+            loss = criterion(y_pred, y)
+            loss.backward()
+            optimizer.step()
+
+            curr_loss = loss.item()
+            if i % 200 == 0:
+                print(
+                    f'Finished epoch {epoch}/{NUM_EPOCHS}, batch {i}. Loss: {curr_loss:.3f}.'
+                )
+
+            losses.append(curr_loss)
+
+        print(
+            f'Finished epoch {epoch}. '
+            f'avg loss: {np.mean(losses)}; median loss: {np.min(losses)}'
+        )
+    print(f"Training done in {str(time.time() - start_time)} seconds.")
+
+
 if __name__ == "__main__":
     mobilenet = get_model()
     dataloader = get_dataloader()
     X_ex, y_ex = next(iter(dataloader))
 
-    traced_mobilenet = torch.jit.trace(mobilenet.forward, (X_ex))
-    
+    train(mobilenet)
+
+    print(f"Converting the model (post-training)...")
+    start_time = time.time()
+    quantized_mobilenet = torch.quantization.convert(mobilenet)
+    print(f"Quantization done in {str(time.time() - start_time)} seconds.")
+    torch.save(quantized_mobilenet.state_dict(), "quantized_model.pth")
+
+    print("PyTorch (unquantized) timings:")
+    print(time_it(lambda: mobilenet(X_ex)))
+
+    print("PyTorch (quantized) timings:")
+    print(time_it(lambda: quantized_mobilenet(X_ex)))
+
     # tvm part
-    mod, params, module = get_tvm_model(traced_mobilenet, X_ex)
+    mod, params, module = get_tvm_model(quantized_mobilenet, X_ex)
     tvm_optimized_module = tune(mod, params, X_ex)
-    
-    # timing part
-    print("PyTorch timings:")
-    print(time_it(lambda: traced_mobilenet(X_ex)))
+
     print("TVM (Relay) timings:")
     print(time_it(lambda: module.run()))
     print("TVM (Tuned) timings:")
