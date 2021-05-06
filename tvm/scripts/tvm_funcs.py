@@ -1,11 +1,12 @@
 import tvm
 import tvm.relay as relay
 from tvm.contrib import graph_executor
-import tvm.auto_scheduler as auto_scheduler
+# import tvm.auto_scheduler as auto_scheduler
 from tvm.autotvm.tuner import XGBTuner
 from tvm import autotvm
 
 import numpy as np
+import torch
 
 TARGET = "llvm -mcpu=skylake-avx512"
 
@@ -28,8 +29,17 @@ def time_it(model_func):
     return results
 
 
-def get_tvm_model(traced_model, X_ex):
-    mod, params = relay.frontend.from_pytorch(traced_model, input_infos=[('input0', X_ex.shape)])
+# XXX: TVM currently only supports JIT PyTorch models which have been *traced*:
+# https://tvm.apache.org/docs/api/python/relay/frontend.html#tvm.relay.frontend.from_pytorch.
+# Tracing is one of three quantization approaches implemented in PyTorch, and far from appropriate
+# for every model.
+#
+# To satisfy this requirement, the following code applies torch.jit.trace to the input module.
+# However, actual model quantization was performed using QAT upstream. Tracing is probably a
+# no-op, but it's hard to know for sure.
+def get_tvm_model(model, X_ex):
+    model = torch.jit.trace(model)
+    mod, params = relay.frontend.from_pytorch(model, input_infos=[('input0', X_ex.shape)])
 
     with tvm.transform.PassContext(opt_level=3):
         lib = relay.build(mod, target=TARGET, params=params)
@@ -40,8 +50,8 @@ def get_tvm_model(traced_model, X_ex):
     module.set_input("input0", X_ex)
     module.run()  # just a test run to make sure it works
 
-    # mod is an IR struct. Used downstream. params IDK, used downstream.
-    # module is a Relay Python collable
+    # mod is an IR struct. Used downstream. Same with params, used downstream.
+    # module is a Relay Python callable
     return mod, params, module
 
 
@@ -83,7 +93,7 @@ def tune(mod, params, X_ex):
         ),
         "tuning_records": "resnet-50-v2-autotuning.json",
     }
-    
+
     tasks = autotvm.task.extract_from_program(mod["main"], target=TARGET, params=params)
 
     for i, task in enumerate(tasks):
@@ -101,9 +111,9 @@ def tune(mod, params, X_ex):
 
     with autotvm.apply_history_best(tuning_option["tuning_records"]):
         with tvm.transform.PassContext(opt_level=3, config={}):
-            lib = relay.build(mod, target=target, params=params)
+            lib = relay.build(mod, target=TARGET, params=params)
 
-    dev = tvm.device(str(target), 0)
+    dev = tvm.device(str(TARGET), 0)
     optimized_module = graph_executor.GraphModule(lib["default"](dev))
 
     optimized_module.set_input("input0", X_ex)
