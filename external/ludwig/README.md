@@ -2,18 +2,9 @@
 
 Ludwig is an open-source AutoML toolkit. Ludwig was originally developed internally within Uber. [It was open sourced in February 2019](https://eng.uber.com/introducing-ludwig/), and is presently under incubation with [the Linux Foundation](https://lfaidata.foundation/).
 
-This folder is a small demo showing how Ludwig can be run on Spell. We recommend Ludwig to all of our users looking to do AutoML on the platform.
+This folder is a small demo showing how Ludwig can be run on Spell.
 
-The `ludwig-demo.ipynb` Jupyter notebook contains the code. You can launch this notebook on Spell by running the following CLI command (requires having the `spell` package installed):
-
-```python
-spell jupyter \
-    --lab \
-    --github-url https://github.com/spellml/examples.git \
-    ludwig-demo-workspace
-```
-
-## An introduction to AutoML with Ludwig
+## An introduction to AutoML with Ludwig <a href="https://web.spell.ml/workspace_create?workspaceName=ludwig-demo&githubUrl=https%3A%2F%2Fgithub.com%2Fspellml%2Fexamples&pip=ludwig"><img src=https://spell.ml/badge.svg height=20px/></a>
 
 ![](https://i.imgur.com/YazB1Hn.png)
 
