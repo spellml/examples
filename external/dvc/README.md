@@ -6,4 +6,4 @@ This folder contains some resources for getting started using [DVC](https://dvc.
 
 ![](https://i.imgur.com/1PDQjiv.png)
 
-This blog post, ["Using DVC as lightweight feature store on Spell"](https://spell.ml/blog/pytorch-distributed-data-parallel-XvEaABIAAB8Ars0e), discusses how DVC works and how to use it with Spell effectively.
+This blog post, ["Using DVC as lightweight feature store on Spell"](https://spell.ml/blog/using-dvc-with-spell-YBHOChEAACgAaSmV), discusses how DVC works and how to use it with Spell effectively.
