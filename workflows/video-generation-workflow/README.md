@@ -21,7 +21,7 @@ Notice: For this demo, you need only one workflow.py in the repo, as well as onl
 ### 2. Run the workflow:
 ```ShellSession
 $ cd spell-examples/workflows/video-generation-workflow
-$ spell workflow --github-repo video-gen=https://github.com/chengz3906/video-generation.git "python workflow.py --video video/fireworks.mp4"
+$ spell workflow create --github-repo video-gen=https://github.com/chengz3906/video-generation.git "python workflow.py --video video/fireworks.mp4"
 ```
 Notice: 
 * The above command uses a sample video. You can also choose your own video by setting `--video_url` when launching `workflow.py`. It will download the video from the url to the path referred by `--video`. (Always remember to specify `--video`)
