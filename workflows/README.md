@@ -4,16 +4,9 @@ This folder contains a tutorial and some example scripts covering [Spell workflo
 
 ## Tutorial <a href="https://web.spell.ml/workspace_create?workspaceName=workflows-demo&githubUrl=https%3A%2F%2Fgithub.com%2Fspellml%2Fexamples"><img src=https://spell.ml/badge.svg height=20px/></a>
 
-![](https://i.imgur.com/W5Ugs0S.png)
+![](https://i.imgur.com/vapvVIr.png)
 
 For users new to workflows, we recommend starting with the `workflows-demo.ipynb` demo notebook.
-
-```bash
-spell jupyter \
-    --lab \
-    --github-url https://github.com/spellml/examples.git \
-    workflows-demo-workspace
-```
 
 ## Batch scoring on big data
 
