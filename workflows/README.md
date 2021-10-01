@@ -20,11 +20,3 @@ spell jupyter \
 ![](https://i.imgur.com/97Yz8kp.png)
 
 The blog post ["Batch scoring on big data using scikit-learn and Spell workflows"](https://spell.ml/blog/batch-scoring-on-big-data-using-scikit-learn-and-spell-X4YjZBEAACQAHtJw) is a complete end-to-end example of an application of Spell workflows to a batch scoring job.
-
-## Other examples
-
-This folder also contains two other workflow examples.
-
-The `video-generation-workflow` folder contains an example workflow generating videos using the [pix2pix](https://github.com/affinelayer/pix2pix-tensorflow) model.
-
-The `with-metrics` folder contains an example workflow leveraging the [Spell metics API](http://spell.run/docs/metrics/).
