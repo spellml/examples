@@ -8,7 +8,7 @@ It gets to 75% validation accuracy in 25 epochs, and 79% after 50 epochs.
 """
 
 from __future__ import print_function
-import keras
+from tensorflow import keras
 from keras.datasets import cifar10
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential

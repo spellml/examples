@@ -8,14 +8,16 @@ It gets to 75% validation accuracy in 25 epochs, and 79% after 50 epochs.
 '''
 
 from __future__ import print_function
-import keras
-from keras.datasets import cifar10
-from keras.preprocessing.image import ImageDataGenerator
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Conv2D, MaxPooling2D
+from tensorflow import keras
+from tensorflow.keras.datasets import cifar10
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
+from tensorflow.keras.layers import Conv2D, MaxPooling2D
+from tensorflow.keras import optimizers
 import os
 import argparse
+import spell.metrics as metrics
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--epochs', type=int, dest='epochs', default=50)
@@ -71,7 +73,7 @@ model.add(Dense(num_classes))
 model.add(Activation('softmax'))
 
 # initiate RMSprop optimizer
-opt = keras.optimizers.rmsprop(lr=args.learning_rate, decay=1e-6)
+opt = optimizers.RMSprop(lr=args.learning_rate, decay=1e-6)
 
 # Let's train the model using RMSprop
 model.compile(loss='categorical_crossentropy',
