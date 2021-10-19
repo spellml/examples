@@ -1,11 +1,11 @@
 import tensorflow as tf
 import idx2numpy
-import keras
 import argparse
 
-from keras.models import Sequential
-from keras.datasets import mnist
-from keras.layers import Conv2D, Dense, MaxPooling2D, Activation, Flatten, Dropout
+from tensorflow import keras
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.layers import Conv2D, Dense, MaxPooling2D, Activation, Flatten, Dropout
 
 
 parser = argparse.ArgumentParser()
