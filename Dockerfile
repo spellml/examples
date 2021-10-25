@@ -1,72 +1,90 @@
-FROM nvidia/cuda:11.2.2-devel-ubuntu20.04
+ARG CUDA_DOCKER_VERSION=11.2.2-devel-ubuntu20.04
+FROM nvidia/cuda:${CUDA_DOCKER_VERSION}
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y --no-install-recommends \
+
+# Arguments for the build. CUDA_DOCKER_VERSION needs to be repeated because
+# the first usage only applies to the FROM tag.
+# TensorFlow version is tightly coupled to CUDA and cuDNN so it should be selected carefully
+ARG CUDA_DOCKER_VERSION=11.2.2-devel-ubuntu18.04
+ARG PYTORCH_VERSION=1.8.1+cu111
+ARG TORCHVISION_VERSION=0.9.1+cu111
+# NOTE(aleksey): these packages are not even available anymore lol.
+# ARG CUDNN_VERSION=8.1.1.33-1+cuda11.2
+# ARG NCCL_VERSION=2.8.4-1+cuda11.2
+
+ARG PYTHON_VERSION=3.8
+
+# Set default shell to /bin/bash
+SHELL ["/bin/bash", "-cu"]
+
+RUN apt-get update && apt-get install -y --allow-downgrades --allow-change-held-packages --no-install-recommends \
     build-essential \
     cmake \
     g++-7 \
     git \
     curl \
-    rsync \
-    unzip \
+    vim \
     wget \
     ca-certificates \
-    openssh-client openssh-server \
-    openmpi-bin openmpi-common libopenmpi-dev \
-    libcudnn8=8.1.1.33-1+cuda11.2 \
-    libnccl2=2.8.4-1+cuda11.2 libnccl-dev=2.8.4-1+cuda11.2 \
+    # libcudnn8=${CUDNN_VERSION} \
+    # libnccl2=${NCCL_VERSION} \
+    # libnccl-dev=${NCCL_VERSION} \
+    libcudnn8 \
+    libnccl2 \
+    libnccl-dev \
+    libjpeg-dev \
+    libpng-dev \
+    python${PYTHON_VERSION} \
+    python${PYTHON_VERSION}-dev \
+    python${PYTHON_VERSION}-distutils \
     librdmacm1 \
     libibverbs1 \
+    libeigen3-dev \
     ibverbs-providers \
-    python3.8 python3.8-dev python3.8-distutils \
-    && rm --force --recursive /var/lib/apt/lists/*
-RUN ln -s /usr/bin/python3.8 /usr/bin/python
-RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
-    python get-pip.py && \
-    rm get-pip.py
-# RUN python3 -m pip install --upgrade pip
-# RUN update-alternatives --install /usr/bin/python python $(which python3) 20
+    openjdk-8-jdk-headless \
+    openssh-client \
+    openssh-server \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install OpenMPI
+# Install Open MPI
 RUN wget --progress=dot:mega -O /tmp/openmpi-3.0.0-bin.tar.gz https://github.com/horovod/horovod/files/1596799/openmpi-3.0.0-bin.tar.gz && \
     cd /usr/local && \
     tar -zxf /tmp/openmpi-3.0.0-bin.tar.gz && \
     ldconfig && \
     mpirun --version
 
-# # Install CUDA Toolkit 11.4
-# RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin && \
-#     mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600 && \
-#     wget -q https://developer.download.nvidia.com/compute/cuda/11.4.0/local_installers/cuda-repo-ubuntu2004-11-4-local_11.4.0-470.42.01-1_amd64.deb && \
-#     dpkg -i cuda-repo-ubuntu2004-11-4-local_11.4.0-470.42.01-1_amd64.deb && \
-#     apt-key add /var/cuda-repo-ubuntu2004-11-4-local/7fa2af80.pub && \
-#     apt-get update && \
-#     apt-get -y install cuda
-# Install CUDA Toolkit 11.5; incompatible with out 11.4.2 base, and an 11.5 base Docker image is not out yet, there
-# doesn't appear to be an NCCL for this version of CUDA yet either.
-# RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin && \
-#     mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600 && \
-#     wget -q https://developer.download.nvidia.com/compute/cuda/11.5.0/local_installers/cuda-repo-ubuntu2004-11-5-local_11.5.0-495.29.05-1_amd64.deb && \
-#     dpkg -i cuda-repo-ubuntu2004-11-5-local_11.5.0-495.29.05-1_amd64.deb && \
-#     apt-key add /var/cuda-repo-ubuntu2004-11-5-local/7fa2af80.pub && \
-#     apt-get update && apt-get -y install cuda
+# Allow OpenSSH to talk to containers without asking for confirmation
+RUN mkdir -p /var/run/sshd
+RUN cat /etc/ssh/ssh_config | grep -v StrictHostKeyChecking > /etc/ssh/ssh_config.new && \
+    echo "    StrictHostKeyChecking no" >> /etc/ssh/ssh_config.new && \
+    mv /etc/ssh/ssh_config.new /etc/ssh/ssh_config
 
-# # Install NCCL 2.11.4 for CUDA 11.4
-# RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub & \
-#     add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /" & \
-#     apt-get update && apt-get -y install libnccl2=2.11.4-1+cuda11.4 libnccl-dev=2.11.4-1+cuda11.4
+RUN ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python
+
+RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
+    python get-pip.py && \
+    rm get-pip.py
 
 # Install PyTorch
-RUN python3 -m pip install --no-cache-dir \
-    -f https://download.pytorch.org/whl/torch_stable.html \
-    torch==1.9.1+cu111 \
-    torchvision==0.10.1+cu111 \
-    torchaudio==0.9.1
+RUN pip install --no-cache-dir \
+    torch==${PYTORCH_VERSION} \
+    torchvision==${TORCHVISION_VERSION} \
+    -f https://download.pytorch.org/whl/${PYTORCH_VERSION/*+/}/torch_stable.html
 
-# Install Horovod ("temporarily using CUDA stubs"; this line ripped from https://github.com/horovod/horovod/blob/master/docker/horovod/Dockerfile#L94)
+# Install Horovod, temporarily using CUDA stubs
+# WORKDIR /horovod
+# COPY horovod .
+# RUN cd horovod && ls -a . && python setup.py sdist && \
 RUN ldconfig /usr/local/cuda/targets/x86_64-linux/lib/stubs && \
-    bash -c "HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_PYTORCH=1 pip install --no-cache-dir horovod==0.23.0"
-# RUN HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_MPI=1  \
-#     python3 -m pip install --no-cache-dir horovod==0.23.0
+    bash -c "HOROVOD_GPU_OPERATIONS=NCCL HOROVOD_WITH_PYTORCH=1 HOROVOD_WITHOUT_GLOO=1 HOROVOD_WITH_MPI=1 HOROVOD_WITHOUT_TENSORFLOW=1 HOROVOD_WITHOUT_MXNET=1 pip install --no-cache-dir horovod" && \
+    horovodrun --check-build && \
+    ldconfig
+
+# Check the framework is working correctly. Use CUDA stubs to ensure CUDA libs can be found correctly
+# when running on CPU machine
+RUN ldconfig /usr/local/cuda/targets/x86_64-linux/lib/stubs && \
+    python -c "import horovod.torch as hvd; hvd.init()" && \
+    ldconfig
 
 # Configure SSH
 RUN useradd -ms /bin/bash spell
@@ -77,16 +95,7 @@ RUN chown -R spell /home/spell/ && chmod 0600 /home/spell/.spell/id_rsa && \
     && echo "    StrictHostKeyChecking no" >> /etc/ssh/ssh_config.new \
     && mv /etc/ssh/ssh_config.new /etc/ssh/ssh_config
 
-# Test the framework works correctly.
-RUN ldconfig /usr/local/cuda/targets/x86_64-linux/lib/stubs && \
-    python -c "import horovod.torch as hvd; hvd.init()" && \
-    ldconfig
-
 # Switch to Spell user
 USER spell
 ENV PATH=/home/spell/.local/bin:$PATH
 WORKDIR /home/spell/
-
-# TODO(aleksey): current sticking point: Horovod compiles with *neither* NCCL *nor* Torch
-# *nor* MPI support. WTF?
-# See output of horovodrun --check-build
