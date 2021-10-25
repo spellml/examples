@@ -55,6 +55,11 @@ find / -path **/openmpi 2>/dev/null
 # DEBUG: check
 # /usr/bin/mpirun --version
 
+# HOROVOD_GPU_OPERATIONS=NCCL \
+#     horovodrun -np 1 -H localhost:1 \
+#     --network-interface enp2s0f1 \
+#     python3 distributed/pytorch_mnist.py
+
 # Horovod instruction
 HOROVOD_GPU_OPERATIONS=NCCL \
     horovodrun -np 2 -H localhost:1,172.24.118.110:1 \
