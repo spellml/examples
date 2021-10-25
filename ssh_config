@@ -1,0 +1,4 @@
+Host *
+    User smci
+    AddKeysToAgent yes
+    IdentityFile /home/spell/.spell/id_rsa
