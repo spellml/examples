@@ -41,6 +41,7 @@ do
 		fi
 done
 
-# # disable the password prompt (requires superuser permissions)
-# # actually, don't do this!!!
-# sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+# NOTE(aleksey): the `orted` process on the PMT machine can't start a daemon process on worker
+# machines without this symlink because it expects the latter path but we have it installed on the
+# former path.
+ln -sf /usr/bin/orted /usr/local/bin/orted
